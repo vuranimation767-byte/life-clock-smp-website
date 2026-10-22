@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life-Clock SMP — Every Second Counts · Minecraft Plugin Showcase</title>
+  <meta name="description" content="Life-Clock SMP: a custom Paper 1.21.11 plugin where every player runs on a 24-hour countdown. PvP steals time, the Revive Totem trades it. Official feature showcase for client DjEoii." />
+  <meta property="og:title" content="Life-Clock SMP — Every Second Counts" />
+  <meta property="og:description" content="24-hour clocks. PvP wagers time. Ghost Mode for the fallen. Revive your allies for 5 hours." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%235b2ea6'/><text x='16' y='23' font-size='18' text-anchor='middle'>⏳</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="logo">⏳</span> LIFE-CLOCK SMP <small>showcase</small></a>
+    <nav>
+      <a href="#system">System</a>
+      <a href="#hud">BossBar HUD</a>
+      <a href="#pvp">PvP</a>
+      <a href="#revive">Revive Totem</a>
+      <a href="#gui">Revive GUI</a>
+    </nav>
+    <span class="paper-badge">Paper 1.21.11 · Java 21</span>
+  </div>
+</header>
+
+<main id="top" class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <h1>Your Minecraft life runs on a <span class="grad">24-hour clock.</span></h1>
+    <p>
+      Life-Clock SMP is a custom timer plugin for modern servers: every player holds a countdown clock,
+      every kill moves hours between players, and the fallen become Ghosts — until someone pays the toll to bring them back.
+      The timer keeps ticking. Do you spend your time living, or banking it for a friend's revival?
+    </p>
+    <div class="chip-row">
+      <span class="chip">Start <b>24:00:00</b></span>
+      <span class="chip">Death <b class="neg">−2:00:00</b></span>
+      <span class="chip">Kill claim <b class="pos">+2:00:00</b></span>
+      <span class="chip">Revive use <b class="neg">−5:00:00</b></span>
+      <span class="chip">Timer runs <b>while online</b></span>
+      <span class="chip">Built for <b>client DjEoii</b></span>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="num">24H</div><div class="lbl">Starting clock for every player</div></div>
+      <div class="stat"><div class="num">−2H</div><div class="lbl">Every death — the victim pays</div></div>
+      <div class="stat"><div class="num">+2H</div><div class="lbl">Every kill — claimed via Time Clock item</div></div>
+      <div class="stat"><div class="num">5H</div><div class="lbl">Sacrifice cost to revive one Ghost</div></div>
+    </div>
+  </section>
+
+  <!-- ============ SYSTEM ============ -->
+  <section id="system">
+    <p class="sec-label">// The System</p>
+    <h2>Time is the currency. Death is the tax.</h2>
+    <p class="lede">Three rules power the whole game mode:</p>
+    <div class="cards">
+      <div class="card">
+        <div class="icon">⏳</div>
+        <h3>The Ever-Ticking Clock</h3>
+        <p>Every player starts with <b>24 hours</b> on their personal timer. It counts down in real time while they are online — pause the game of life at your own risk.</p>
+      </div>
+      <div class="card red">
+        <div class="icon">💀</div>
+        <h3>Ghost Mode</h3>
+        <p>When the clock reaches <b>00h 00m 00s</b>, the player is dropped into Spectator mode — a Ghost. They watch the server float past, clockless and helpless, waiting for a revival.</p>
+      </div>
+      <div class="card yellow">
+        <div class="icon">🕯️</div>
+        <h3>The Revive Rite</h3>
+        <p>Craft a Revive Totem, target a Ghost, and sacrifice <b>5 hours</b> from your own clock. Your ally returns to Survival with a fresh <b>2-hour</b> clock. Mercy, at a price.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HUD ============ -->
+  <section id="hud">
+    <p class="sec-label">// The Hud</p>
+    <h2>The countdown follows your eyes.</h2>
+    <p class="lede">
+      The timer is pinned to a BossBar at the top of the screen — never over the crosshair.
+      Its color is the pressure gauge, and it turns critical long before zero does.
+    </p>
+
+    <figure class="figure">
+      <img src="assets/bossbar-states.svg" alt="Three BossBar states: green bar over 12 hours, yellow bar between 12 and 2 hours, red bar under 2 hours with heartbeat pulse shown in PROGRESS and NOTCHED_10 overlay styles" />
+      <figcaption>Worked examples: 18h 35m (green) · 8h 12m (yellow) · 1h 47m (red, pulse).</figcaption>
+    </figure>
+
+    <table class="spec">
+      <caption>HUD color logic — exact thresholds.</caption>
+      <thead>
+        <tr><th>Color</th><th>Remaining time</th><th>BossBar style</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="dot g"></span><code>GREEN</code></td><td>&gt; 12:00:00</td><td>Standard <code>PROGRESS</code> overlay</td></tr>
+        <tr><td><span class="dot y"></span><code>YELLOW</code></td><td>2:00:00 – 12:00:00</td><td>Standard <code>PROGRESS</code> overlay</td></tr>
+        <tr><td><span class="dot r"></span><code>RED</code></td><td>&lt; 2:00:00</td><td><b>Heartbeat pulse</b> — overlay alternates between <code>PROGRESS</code> and <code>NOTCHED_10</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ PVP ============ -->
+  <section id="pvp">
+    <p class="sec-label">// Pvp Economy</p>
+    <h2>Every kill is a transfer of time.</h2>
+    <p class="lede">Combat has real stakes: hours leave one player's clock and land in another's.</p>
+
+    <div class="flow">
+      <div class="node">
+        <h4>🩸 The kill lands</h4>
+        <p>The victim's clock instantly drops <span class="neg">−2:00:00</span> per death.</p>
+      </div>
+      <div class="arrow">➜</div>
+      <div class="node">
+        <h4>⏱️ Time Clock item</h4>
+        <p>The victor receives a physical <b>Time Clock</b> item, holding the victim's stolen hours.</p>
+      </div>
+      <div class="arrow">➜</div>
+      <div class="node">
+        <h4>🤝 Claim the reward</h4>
+        <p>Right-clicking the Time Clock deposits <span class="pos">+2:00:00</span> into the killer's clock.</p>
+      </div>
+    </div>
+
+    <p>Stored hours keep or die with you — bank them before someone collects <em>your</em> clock:</p>
+    <span class="item-token">
+      ⏱️ Time Clock
+      <span class="lore"><i>Right-click to claim your bounty</i></span>
+      <span class="lore">Grants: +2:00:00</span>
+    </span>
+  </section>
+
+  <!-- ============ REVIVE TOTEM ============ -->
+  <section id="revive">
+    <p class="sec-label">// Necromancy</p>
+    <h2>The Revive Totem — mercy for five hours.</h2>
+    <p class="lede">
+      A shapeless ritual recipe anyone can run at a crafting table. The totem itself is free to craft;
+      the sacrifice happens the moment you use it on a Ghost.
+    </p>
+
+    <figure class="figure">
+      <img src="assets/crafting-grid.svg" alt="Shapeless crafting recipe: Totem of Undying, Golden Apple, Diamond and Blaze Rod in a 3x3 grid producing a Revive Totem; using it costs 5 hours and requires at least 5 hours remaining" />
+      <figcaption>Shapeless — the four ingredients can sit in any of the 9 grid slots.</figcaption>
+    </figure>
+
+    <table class="spec">
+      <caption>Revive Totem — usage rules.</caption>
+      <thead><tr><th>Step</th><th>Effect</th></tr></thead>
+      <tbody>
+        <tr><td>Craft</td><td>Totem of Undying + Golden Apple + Diamond + Blaze Rod → 1× Revive Totem (no time cost to craft)</td></tr>
+        <tr><td>Check</td><td>Requires <b>≥ 5:00:00</b> remaining on <em>your</em> clock — under that, the totem refuses to activate</td></tr>
+        <tr><td>Use</td><td>Consumes 1× Revive Totem and deducts <span class="neg">−5:00:00</span> from the user</td></tr>
+        <tr><td>Result</td><td>Target Ghost returns to Survival mode on a fresh <b>2:00:00</b> clock</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ============ REVIVE GUI ============ -->
+  <section id="gui">
+    <p class="sec-label">// Revive Interface</p>
+    <h2>Pick your Ghost. Pay the toll.</h2>
+    <p class="lede">
+      Right-clicking a Revive Totem opens a 27-slot chest GUI titled <b>"Select Ghost to Revive"</b> —
+      every currently spectating player appears as a custom player head with their death data attached.
+    </p>
+
+    <figure class="figure">
+      <img src="assets/revive-gui.svg" alt="Revive selection chest GUI mock: dark purple title Select Ghost to Revive, 27 slots, custom player-head tiles for ghosts with a hover tooltip showing death time and killer, plus a compass search icon" />
+      <figcaption>Hover tooltip: remaining-time-at-death, the final blow, and the exact cost to revive.</figcaption>
+    </figure>
+
+    <div class="mini-mocks">
+      <div class="mini">
+        <h4>Empty state</h4>
+        <div class="mini-chest">
+          <div class="bar">Select Ghost to Revive</div>
+          <div class="slots">
+            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
+            <div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div><div class="slot"></div>
+          </div>
+          <div class="empty-msg">No Ghosts Available</div>
+        </div>
+        <p style="margin-top:12px;color:var(--mut);font-size:13.5px;">When nobody is spectating, the grid renders empty and the GUI shows a <b>No Ghosts Available</b> indicator instead of tempting you with dead air.</p>
+      </div>
+      <div class="mini">
+        <h4>Chat-prompt search</h4>
+        <div class="chat-line">
+          <div><span class="prompt">Search compass →</span> <span class="ghost">type a ghost's username in chat</span></div>
+          <div><span class="prompt">&gt;</span> Driftwood_<span class="caret"></span></div>
+        </div>
+        <p style="margin-top:12px;color:var(--mut);font-size:13.5px;">Too many Ghosts? The <b>Search</b> icon opens a chat prompt — type the target's username and the GUI jumps straight to their head.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>⏳ <b>Life-Clock SMP</b> — feature showcase · custom plugin for client <span id="owner">DjEoii</span></p>
+    <p><span class="sep">·</span> Runs on Paper 1.21.11 · Java 21</p>
+    <p><span class="sep">·</span> Plugin source is private; this is a design showcase only.</p>
+    <p><span class="sep">·</span> Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.</p>
+  </div>
+</footer>
+
+</body>
+</html>
