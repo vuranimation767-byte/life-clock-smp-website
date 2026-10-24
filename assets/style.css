@@ -74,6 +74,43 @@ a:hover { text-decoration: underline; }
   padding: 3px 10px; background: #1d1809;
 }
 
+@media (max-width: 760px) {
+  .nav .wrap {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 8px 14px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .brand {
+    flex: 0 1 auto;
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+  .brand .logo { width: 26px; height: 26px; font-size: 11px; }
+  .brand small { display: none; }
+  .paper-badge {
+    margin-left: auto;
+    white-space: nowrap;
+    font-size: 10px;
+    padding: 2px 8px;
+  }
+  .nav nav {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    font-size: 12px;
+  }
+  .nav nav a { white-space: nowrap; }
+}
+
+@media (max-width: 360px) {
+  .paper-badge { display: none; }
+}
+
 /* ---------- hero ---------- */
 .hero { padding: 78px 0 46px; text-align: left; }
 .hero h1 {
@@ -103,6 +140,10 @@ a:hover { text-decoration: underline; }
 
 /* ---------- sections ---------- */
 section { padding: 52px 0 10px; scroll-margin-top: 70px; }
+
+@media (max-width: 760px) {
+  section { scroll-margin-top: 110px; }
+}
 .sec-label {
   font-family: var(--pixel); font-size: 10px; letter-spacing: 3px;
   color: var(--purple); text-transform: uppercase; margin: 0 0 10px;
@@ -155,6 +196,11 @@ h2 { font-size: clamp(1.5rem, 3.4vw, 2rem); font-weight: 800; letter-spacing: -0
 .spec th, .spec td { padding: 10px 14px; border-bottom: 1px solid var(--line); text-align: left; }
 .spec thead th { background: var(--panel-2); font-size: 12px; letter-spacing: 1px; text-transform: uppercase; color: var(--mut); }
 .spec tr:last-child td { border-bottom: 0; }
+
+@media (max-width: 380px) {
+  .spec { font-size: 13px; }
+  .spec th, .spec td { padding: 8px 6px; }
+}
 .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; vertical-align: baseline; }
 .dot.g { background: var(--green); box-shadow: 0 0 8px rgba(43,217,106,.7); }
 .dot.y { background: var(--yellow); box-shadow: 0 0 8px rgba(242,201,76,.7); }
